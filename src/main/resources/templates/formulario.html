@@ -1,237 +1,193 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
+  <head>
     <title>Formulario Producto</title>
     <meta charset="UTF-8" />
-    <style>
-        :root {
-            --primary-color: #2c3e50;
-            --secondary-color: #3498db;
-            --accent-color: #e74c3c;
-            --light-color: #ecf0f1;
-            --dark-color: #34495e;
-            --success-color: #2ecc71;
-            --border-radius: 4px;
-            --box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        body {
-            background-color: #f5f7fa;
-            color: #333;
-            line-height: 1.6;
-            padding: 20px;
-        }
-        
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 8px;
-            box-shadow: var(--box-shadow);
-            padding: 30px;
-        }
-        
-        h1 {
-            color: var(--primary-color);
-            margin-bottom: 30px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid var(--light-color);
-            text-align: center;
-        }
-        
-        .product-form {
-            width: 100%;
-        }
-        
-        .form-group {
-            margin-bottom: 20px;
-        }
-        
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: var(--dark-color);
-        }
-        
-        input[type="text"],
-        input[type="number"],
-        select {
-            width: 100%;
-            padding: 10px 12px;
-            border: 1px solid #ddd;
-            border-radius: var(--border-radius);
-            font-size: 14px;
-            transition: border-color 0.3s;
-        }
-        
-        input[type="text"]:focus,
-        input[type="number"]:focus,
-        select:focus {
-            outline: none;
-            border-color: var(--secondary-color);
-            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
-        }
-        
-        .form-actions {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid #eee;
-        }
-        
-        .btn {
-            padding: 10px 20px;
-            border: none;
-            border-radius: var(--border-radius);
-            cursor: pointer;
-            font-weight: 600;
-            text-decoration: none;
-            transition: all 0.3s;
-            display: inline-block;
-            text-align: center;
-        }
-        
-        .btn-primary {
-            background-color: var(--secondary-color);
-            color: white;
-        }
-        
-        .btn-primary:hover {
-            background-color: #2980b9;
-        }
-        
-        .btn-secondary {
-            background-color: #95a5a6;
-            color: white;
-        }
-        
-        .btn-secondary:hover {
-            background-color: #7f8c8d;
-        }
-        
-        .required::after {
-            content: " *";
-            color: var(--accent-color);
-        }
-        
-        .field-hint {
-            font-size: 12px;
-            color: #7f8c8d;
-            margin-top: 5px;
-        }
-        
-        @media (max-width: 768px) {
-            .container {
-                padding: 20px;
-            }
-            
-            .form-actions {
-                flex-direction: column;
-                gap: 10px;
-            }
-            
-            .btn {
-                width: 100%;
-            }
-        }
-    </style>
-</head>
-<body>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/formulario.css}" />
+  </head>
+  <body>
     <div class="container">
-        <h1 th:text="${producto.id == null} ? 'Agregar Producto' : 'Editar Producto'"></h1>
+      <h1
+        th:text="${producto.id == null} ? 'Agregar Producto' : 'Editar Producto'"
+      ></h1>
 
-        <form class="product-form" th:action="@{/productos/guardar}" th:object="${producto}" method="post">
-            <input type="hidden" th:field="*{id}" />
+      <form
+        class="product-form"
+        th:action="@{/productos/guardar}"
+        th:object="${producto}"
+        method="post"
+      >
+        <input type="hidden" th:field="*{id}" />
 
-            <div class="form-group">
-                <label for="clave" class="required">Clave:</label>
-                <input type="text" id="clave" th:field="*{clave}" required placeholder="Ingrese la clave del producto" />
-                <div class="field-hint">Clave interna de la organización para el producto</div>
-            </div>
+        <div class="form-group">
+          <label for="clave" class="required">Clave:</label>
+          <input
+            type="text"
+            id="clave"
+            th:field="*{clave}"
+            required
+            placeholder="Ingrese la clave del producto"
+          />
+          <div class="field-hint">
+            Clave interna de la organización para el producto
+          </div>
+        </div>
 
-            <div class="form-group">
-                <label for="nombre" class="required">Nombre:</label>
-                <input type="text" id="nombre" th:field="*{nombre}" required placeholder="Ingrese el nombre del producto" />
-            </div>
+        <div class="form-group">
+          <label for="nombre" class="required">Nombre:</label>
+          <input
+            type="text"
+            id="nombre"
+            th:field="*{nombre}"
+            required
+            placeholder="Ingrese el nombre del producto"
+          />
+        </div>
 
-            <div class="form-group">
-                <label for="precio" class="required">Precio:</label>
-                <input type="number" id="precio" step="0.01" th:field="*{precio}" required placeholder="0.00" min="0" />
-                <div class="field-hint">Precio de venta del producto</div>
-            </div>
+        <div class="form-group">
+          <label for="precio" class="required">Precio:</label>
+          <input
+            type="number"
+            id="precio"
+            step="0.01"
+            th:field="*{precio}"
+            required
+            placeholder="0.00"
+            min="0"
+          />
+          <div class="field-hint">Precio de venta del producto</div>
+        </div>
 
-            <div class="form-group">
-                <label for="tipoProducto" class="required">Tipo Producto:</label>
-                <select id="tipoProducto" th:field="*{tipoProducto}" required>
-                    <option value="">-- Seleccione un tipo --</option>
-                    <option th:each="tipo : ${tipos}" th:value="${tipo.id}" th:text="${tipo.nombre}"></option>
-                </select>
-            </div>
+        <div class="form-group">
+          <label for="tipoProducto" class="required">Tipo Producto:</label>
+          <select id="tipoProducto" th:field="*{tipoProducto}" required>
+            <option value="">-- Seleccione un tipo --</option>
+            <option
+              th:each="tipo : ${tipos}"
+              th:value="${tipo.id}"
+              th:text="${tipo.nombre}"
+            ></option>
+          </select>
+        </div>
 
-            <div class="form-group">
-    <label>Proveedores:</label>
-    
-    <div id="proveedores-container" style="margin-bottom: 15px;">
-        <table style="width: 100%; border-collapse: collapse; margin-top: 10px;">
-            <thead>
-                <tr style="background-color: var(--dark-color); color: white;">
-                    <th style="padding: 10px; text-align: left;">Proveedor</th>
-                    <th style="padding: 10px; text-align: left;">Clave Proveedor</th>
-                    <th style="padding: 10px; text-align: right;">Costo</th>
-                    <th style="padding: 10px; width: 60px;">Acción</th>
-                </tr>
-            </thead>
-            <tbody id="proveedores-tbody">
-                <tr th:each="pp, stat : *{proveedores}" class="proveedor-row" th:id="'proveedor-row-' + ${stat.index}">
-                    <input type="hidden" th:field="*{proveedores[__${stat.index}__].id}" />
+            <div class="form-group" style="display: block">
+              <label>Proveedores Asociados:</label>
 
-                    <td style="padding: 10px; border-bottom: 1px solid #eee;">
-                        <select th:field="*{proveedores[__${stat.index}__].proveedor.id}" class="full-width-input" required>
-                            <option th:each="prov : ${proveedores}" 
-                                    th:value="${prov.id}" 
-                                    th:text="${prov.nombre}">
-                            </option>
-                        </select>
+              <table class="proveedores-table">
+                <thead>
+                  <tr>
+                    <th>Editar</th>
+                    <th>Proveedor</th>
+                    <th>Clave Producto</th>
+                    <th>Costo</th>
+                    <th>Eliminar</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <tr th:each="pp : ${producto.proveedores}">
+                    <td><span class="btn-accion">✏️</span></td>
+
+                    <td th:text="${pp.proveedor.nombre}"></td>
+                    <td th:text="${pp.claveProveedor}"></td>
+                    <td
+                      th:text="${'$' + #numbers.formatDecimal(pp.costo, 1, 2)}"
+                    ></td>
+
+                    <td>
+                      <a
+                        th:href="@{/productos/eliminarProveedor/__${pp.id}__}"
+                        class="btn-accion btn-eliminar"
+                        onclick="return confirm('¿Confirma que desea eliminar esta relación de proveedor?');"
+                      >
+                        ❌
+                      </a>
                     </td>
+                  </tr>
 
-                    <td style="padding: 10px; border-bottom: 1px solid #eee;">
-                        <input type="text" th:field="*{proveedores[__${stat.index}__].claveProveedor}" class="full-width-input" required placeholder="Clave de la relación" />
+                  <tr th:if="${#lists.isEmpty(producto.proveedores)}">
+                    <td colspan="5" style="text-align: center">
+                      No hay proveedores asociados.
                     </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </table>
 
-                    <td style="padding: 10px; border-bottom: 1px solid #eee;">
-                        <input type="number" step="0.01" th:field="*{proveedores[__${stat.index}__].costo}" class="full-width-input" required placeholder="0.00" style="text-align: right;" />
-                    </td>
-                    
-                    <td style="padding: 10px; border-bottom: 1px solid #eee; text-align: center;">
-                        <button type="button" class="btn btn-secondary btn-remove" th:onclick="'removeProveedor(\'' + ${stat.index} + '\')'">
-                            &times;
-                        </button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+          <button
+            type="button"
+            class="btn btn-agregar-proveedor"
+            th:if="${producto.id != null}"
+            onclick="document.getElementById('modalProveedor').style.display='flex'"
+          >
+            Agregar Proveedor
+          </button>
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary">
+            Guardar Producto
+          </button>
+          <a th:href="@{/productos}" class="btn btn-secondary">Cancelar</a>
+        </div>
+      </form>
     </div>
 
-    <div class="form-actions" style="border-top: none; padding-top: 0; justify-content: flex-start;">
-        <button type="button" class="btn btn-primary" onclick="addProveedor()">+ Agregar Proveedor</button>
-    </div>
-</div>
+    <div id="modalProveedor" class="modal-background">
+      <div class="modal-content">
+        <h4 style="color: var(--primary-color)">Agregar Proveedor</h4>
 
-            <div class="form-actions">
-                <button type="submit" class="btn btn-primary">Guardar Producto</button>
-                <a th:href="@{/productos}" class="btn btn-secondary">Cancelar</a>
-            </div>
+        <form
+          th:action="@{/productos/agregarProveedor}"
+          th:object="${nuevoProdProv}"
+          method="post"
+        >
+          <input type="hidden" name="producto.id" th:value="${producto.id}" />
+
+          <div class="form-group">
+            <label>Proveedor:</label>
+            <select th:field="*{proveedor.id}" required>
+              <option value="">-- Seleccione un Proveedor --</option>
+              <option
+                th:each="prov : ${proveedores}"
+                th:value="${prov.id}"
+                th:text="${prov.nombre}"
+              ></option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Clave:</label>
+            <input type="text" th:field="*{claveProveedor}" required />
+          </div>
+
+          <div class="form-group">
+            <label>Costo:</label>
+            <input
+              type="number"
+              step="0.01"
+              th:field="*{costo}"
+              required
+              placeholder="0.00"
+            />
+          </div>
+
+          <div
+            class="form-actions"
+            style="margin-top: 15px; padding-top: 0; border-top: none"
+          >
+            <button type="submit" class="btn btn-primary">Guarda</button>
+            <button
+              type="button"
+              class="btn btn-secondary"
+              onclick="document.getElementById('modalProveedor').style.display='none'"
+            >
+              Cancelar
+            </button>
+          </div>
         </form>
+      </div>
     </div>
-</body>
+  </body>
 </html>

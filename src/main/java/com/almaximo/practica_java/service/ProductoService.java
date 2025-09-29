@@ -10,6 +10,7 @@ import com.almaximo.practica_java.model.ProductoProveedor;
 import com.almaximo.practica_java.repository.ProductoRepository;
 import com.almaximo.practica_java.repository.ProductoProveedorRepository;
 
+import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 
 @Service
@@ -37,7 +38,26 @@ public class ProductoService {
         productoRepository.deleteById(id);
     }
 
+    @Autowired
+    private EntityManager entityManager; 
+
+    @Transactional
     public Optional<Producto> obtenerPorId(Integer id) {
-        return productoRepository.findById(id);
+        return productoRepository.findByIdConProveedores(id);
+    }
+
+    @Transactional
+    public ProductoProveedor guardarProductoProveedor(ProductoProveedor productoProveedor) {
+        return productoProveedorRepository.save(productoProveedor);
+    }
+
+    @Transactional
+    public Optional<ProductoProveedor> obtenerProductoProveedorPorId(Integer id) {
+        return productoProveedorRepository.findById(id);
+    }
+
+    @Transactional
+    public void eliminarProductoProveedor(Integer idProdProv) {
+        productoProveedorRepository.deleteById(idProdProv);
     }
 }
